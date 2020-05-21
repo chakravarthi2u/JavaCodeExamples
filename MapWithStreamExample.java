@@ -29,18 +29,19 @@ public class MapWithStreamExample {
 		 * amounts.add(second); map.put(first, amounts); } else { List<String> amounts =
 		 * map.get(first); amounts.add(second); map.put(first, amounts); } }
 		 */
-		
+		//Group by key and value as list of amounts
 		 Map<String, List<String>> groupByInConditionsMap =
 					pairs.stream().collect(Collectors.groupingBy(Pair::getFirst,
 							Collectors.mapping(Pair::getSecond, Collectors.toList())));		
 		
-		
+		//Group by key and value as list of Min and Max amounts
 		Map<String, List<String>> minMaxAmountMap = groupByInConditionsMap.entrySet().stream().collect(Collectors.toMap(
                 entry -> entry.getKey(), 
                 entry -> List.of(Collections.min(entry.getValue()),Collections.max(entry.getValue())))
             );
 		System.out.println(minMaxAmountMap);
 		
+		//Group by key and value as Pair of Min and Max amounts
 		Map<String, Pair<String, String>> fareAmountMap1 = groupByInConditionsMap.entrySet().stream().collect(Collectors.toMap(
                 entry -> entry.getKey(), 
                 entry -> new Pair<String, String>(Collections.min(entry.getValue()),Collections.max(entry.getValue())))
